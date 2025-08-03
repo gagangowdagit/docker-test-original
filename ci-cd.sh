@@ -3,15 +3,19 @@
 whoami
 sudo apt update
 sudo apt install git -y
-rm -rf *
-git clone https://github.com/krishnansai/docker-test.git
+rm -rf docker-test
+git clone https://github.com/gagangowdagit/docker-test.git
 cp -r ./docker-test/* .
-sudo apt install docker.io -y
-sudo docker build . -t 199316303204.dkr.ecr.eu-central-1.amazonaws.com/myimage
-aws ecr get-login-password --region eu-central-1 | sudo docker login --username AWS --password-stdin 199316303204.dkr.ecr.eu-central-1.amazonaws.com
-sudo docker push 199316303204.dkr.ecr.eu-central-1.amazonaws.com/myimage
-sudo docker pull 199316303204.dkr.ecr.eu-central-1.amazonaws.com/myimage
-sudo docker stop $(sudo docker ps)
-sudo docker rm $(sudo docker ps -a)
-sudo docker run -d -p 80:80 199316303204.dkr.ecr.eu-central-1.amazonaws.com/myimage
+sudo docker build -t test .
+aws ecr get-login-password --region eu-north-1 |sudo docker login --username AWS --password-stdin 390403857604.dkr.ecr.eu-north-1.amazonaws.com
+sudo docker tag test 390403857604.dkr.ecr.eu-north-1.amazonaws.com/mytestimage
+sudo docker push 390403857604.dkr.ecr.eu-north-1.amazonaws.com/mytestimage
+sudo docker run -d httpd
+sudo docker stop $(sudo docker ps -a -q)
+sudo docker rm $(sudo docker ps -a -q)
+sudo docker run -d -p 80:80 390403857604.dkr.ecr.eu-north-1.amazonaws.com/mytestimage
+
+
+
+
 
